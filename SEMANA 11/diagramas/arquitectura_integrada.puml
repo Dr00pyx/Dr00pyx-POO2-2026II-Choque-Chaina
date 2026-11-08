@@ -1,0 +1,169 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam defaultFontName "Segoe UI"
+skinparam roundCorner 8
+skinparam shadowing true
+
+title Arquitectura Integrada del Sistema de Matrícula - Patrones GoF y SOLID\n(Singleton + Factory Method + Abstract Factory)
+
+package "Capa de Infraestructura (Patrón SINGLETON)" #E8F8F5 {
+    class SingletonMeta <<metaclass>> {
+        - {static} _instancias: Dict
+        - {static} _lock: Lock
+        + __call__(*args, **kwargs): Object
+    }
+
+    class Logger <<metaclass=SingletonMeta>> {
+        - ruta_archivo: Path
+        - nivel_minimo: NivelLog
+        - _lock: Lock
+        + log(nivel, modulo, mensaje): String
+        + info(modulo, mensaje): String
+        + warn(modulo, mensaje): String
+        + error(modulo, mensaje): String
+    }
+
+    class ConfiguracionSistema <<metaclass=SingletonMeta>> {
+        - _valores: Dict
+        + entorno: EntornoApp
+        + tipo_repositorio: TipoRepositorio
+        + tipo_ui: TipoUI
+        + ruta_db: String
+    }
+
+    SingletonMeta <.. Logger : instancia
+    SingletonMeta <.. ConfiguracionSistema : instancia
+}
+
+package "Capa de Persistencia (Patrón FACTORY METHOD)" #EBF5FB {
+    interface RepositorioEstudiantes <<interface>> {
+        + {abstract} guardar(est: Estudiante): Boolean
+        + {abstract} buscar_por_codigo(codigo: String): Estudiante
+        + {abstract} listar_todos(): List<Estudiante>
+        + {abstract} eliminar(codigo: String): Boolean
+        + {abstract} tipo_almacenamiento: String
+    }
+
+    class RepositorioMemoria implements RepositorioEstudiantes {
+        - _almacen: Dict
+        + guardar(est: Estudiante): Boolean
+        + buscar_por_codigo(codigo: String): Estudiante
+        + listar_todos(): List<Estudiante>
+        + eliminar(codigo: String): Boolean
+    }
+
+    class RepositorioArchivoJSON implements RepositorioEstudiantes {
+        - ruta_archivo: Path
+        + guardar(est: Estudiante): Boolean
+        + buscar_por_codigo(codigo: String): Estudiante
+        + listar_todos(): List<Estudiante>
+        + eliminar(codigo: String): Boolean
+    }
+
+    class RepositorioSQLite implements RepositorioEstudiantes {
+        - ruta_db: String
+        + guardar(est: Estudiante): Boolean
+        + buscar_por_codigo(codigo: String): Estudiante
+        + listar_todos(): List<Estudiante>
+        + eliminar(codigo: String): Boolean
+    }
+
+    abstract class CreadorRepositorio {
+        + {abstract} crear_repositorio(): RepositorioEstudiantes
+        + inicializar_con_semillas(estudiantes: List): RepositorioEstudiantes
+    }
+
+    class CreadorRepoMemoria extends CreadorRepositorio {
+        + crear_repositorio(): RepositorioEstudiantes
+    }
+
+    class CreadorRepoArchivo extends CreadorRepositorio {
+        + crear_repositorio(): RepositorioEstudiantes
+    }
+
+    class CreadorRepoSQLite extends CreadorRepositorio {
+        + crear_repositorio(): RepositorioEstudiantes
+    }
+
+    class RegistroFabricaRepositorios {
+        - _creadores: Dict
+        + registrar(clave: String, factory: Callable)
+        + fabricar(clave: String): RepositorioEstudiantes
+    }
+
+    CreadorRepoMemoria ..> RepositorioMemoria : <<create>>
+    CreadorRepoArchivo ..> RepositorioArchivoJSON : <<create>>
+    CreadorRepoSQLite ..> RepositorioSQLite : <<create>>
+    RegistroFabricaRepositorios o-- CreadorRepositorio
+}
+
+package "Capa de Presentación (Patrón ABSTRACT FACTORY)" #FEF9E7 {
+    interface UIFactory <<interface>> {
+        + {abstract} crear_ventana(): VentanaPrincipal
+        + {abstract} crear_menu(): MenuNavegacion
+        + {abstract} crear_tabla(): TablaResultados
+        + {abstract} nombre_toolkit: String
+    }
+
+    class UIFactoryTkinter implements UIFactory {
+        + crear_ventana(): VentanaPrincipal
+        + crear_menu(): MenuNavegacion
+        + crear_tabla(): TablaResultados
+    }
+
+    class UIFactoryPyQt5 implements UIFactory {
+        + crear_ventana(): VentanaPrincipal
+        + crear_menu(): MenuNavegacion
+        + crear_tabla(): TablaResultados
+    }
+
+    interface VentanaPrincipal <<interface>> {
+        + {abstract} configurar(titulo, ancho, alto)
+        + {abstract} mostrar(): String
+    }
+
+    interface MenuNavegacion <<interface>> {
+        + {abstract} agregar_comando(etiqueta, callback)
+        + {abstract} renderizar(): String
+    }
+
+    interface TablaResultados <<interface>> {
+        + {abstract} definir_cabeceras(columnas)
+        + {abstract} insertar_fila(valores)
+        + {abstract} renderizar(): String
+    }
+
+    UIFactoryTkinter ..> VentanaPrincipal : <<create Tk>>
+    UIFactoryTkinter ..> MenuNavegacion : <<create Tk>>
+    UIFactoryTkinter ..> TablaResultados : <<create Tk>>
+
+    UIFactoryPyQt5 ..> VentanaPrincipal : <<create Qt>>
+    UIFactoryPyQt5 ..> MenuNavegacion : <<create Qt>>
+    UIFactoryPyQt5 ..> TablaResultados : <<create Qt>>
+}
+
+package "Capa de Orquestación y Negocio (DIP + Integración)" #FDEDEC {
+    class VistaMatriculaGUI {
+        - factory: UIFactory
+        - repositorio: RepositorioEstudiantes
+        - logger: Logger
+        + __init__(factory: UIFactory, repo: RepositorioEstudiantes)
+        + sincronizar_tabla_con_repositorio(): Integer
+        + renderizar_completo(): Dict
+    }
+
+    class SistemaMatriculaBootstrap {
+        + {static} ejecutar_sistema(): void
+    }
+}
+
+' Relaciones de integración
+VistaMatriculaGUI --> UIFactory : depende de abstracción (DIP)
+VistaMatriculaGUI --> RepositorioEstudiantes : depende de abstracción (DIP)
+VistaMatriculaGUI --> Logger : utiliza (Singleton)
+SistemaMatriculaBootstrap ..> ConfiguracionSistema : lee parámetros
+SistemaMatriculaBootstrap ..> RegistroFabricaRepositorios : resuelve repo
+SistemaMatriculaBootstrap ..> VistaMatriculaGUI : inicializa y lanza
+
+@enduml

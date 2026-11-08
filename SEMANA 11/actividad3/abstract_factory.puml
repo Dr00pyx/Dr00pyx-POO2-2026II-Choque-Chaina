@@ -1,0 +1,122 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam class {
+    BackgroundColor White
+    BorderColor #1A5276
+    ArrowColor #2980B9
+}
+
+title Diagrama de Clases - Patrón Abstract Factory (UI Multiplataforma)
+
+package "Abstract Factory & Interfaces" #F4F6F7 {
+    interface UIFactory <<interface>> {
+        + crear_ventana(): VentanaPrincipal
+        + crear_menu(): MenuNavegacion
+        + crear_tabla(): TablaResultados
+        + {abstract} nombre_familia: String
+    }
+
+    abstract class VentanaPrincipal {
+        # titulo: String
+        # ancho: Integer
+        # alto: Integer
+        + {abstract} configurar(titulo: String, ancho: Integer, alto: Integer): void
+        + {abstract} mostrar(): String
+    }
+
+    abstract class MenuNavegacion {
+        # opciones: List<Tuple>
+        + agregar_opcion(etiqueta: String, comando: String): void
+        + {abstract} renderizar(): String
+    }
+
+    abstract class TablaResultados {
+        # columnas: List<String>
+        # filas: List<List<String>>
+        + set_columnas(columnas: List<String>): void
+        + agregar_fila(valores: List<String>): void
+        + {abstract} renderizar(): String
+    }
+}
+
+package "Familia Concreta Tkinter" #EBF5FB {
+    class UIFactoryTkinter implements UIFactory {
+        + crear_ventana(): VentanaPrincipal
+        + crear_menu(): MenuNavegacion
+        + crear_tabla(): TablaResultados
+        + nombre_familia: String
+    }
+
+    class VentanaTkinter extends VentanaPrincipal {
+        + configurar(titulo: String, ancho: Integer, alto: Integer): void
+        + mostrar(): String
+    }
+
+    class MenuTkinter extends MenuNavegacion {
+        + renderizar(): String
+    }
+
+    class TablaResultadosTkinter extends TablaResultados {
+        + renderizar(): String
+    }
+}
+
+package "Familia Concreta PyQt5" #FEF9E7 {
+    class UIFactoryPyQt5 implements UIFactory {
+        + crear_ventana(): VentanaPrincipal
+        + crear_menu(): MenuNavegacion
+        + crear_tabla(): TablaResultados
+        + nombre_familia: String
+    }
+
+    class VentanaPyQt extends VentanaPrincipal {
+        + configurar(titulo: String, ancho: Integer, alto: Integer): void
+        + mostrar(): String
+    }
+
+    class MenuPyQt extends MenuNavegacion {
+        + renderizar(): String
+    }
+
+    class TablaResultadosPyQt extends TablaResultados {
+        + renderizar(): String
+    }
+}
+
+package "Cliente de la Aplicación" #FDEDEC {
+    class FormularioBusqueda {
+        - factory: UIFactory
+        - ventana: VentanaPrincipal
+        - menu: MenuNavegacion
+        - tabla: TablaResultados
+        + __init__(factory: UIFactory)
+        + construir_interfaz(criterio: String, registros: List): Dict
+    }
+}
+
+' Relaciones de creación de la familia Tkinter
+UIFactoryTkinter ..> VentanaTkinter : <<create>>
+UIFactoryTkinter ..> MenuTkinter : <<create>>
+UIFactoryTkinter ..> TablaResultadosTkinter : <<create>>
+
+' Relaciones de creación de la familia PyQt5
+UIFactoryPyQt5 ..> VentanaPyQt : <<create>>
+UIFactoryPyQt5 ..> MenuPyQt : <<create>>
+UIFactoryPyQt5 ..> TablaResultadosPyQt : <<create>>
+
+' Relación del Cliente con la Fábrica Abstracta y Productos Abstractos (DIP)
+FormularioBusqueda --> UIFactory : usa (Inyección DIP)
+FormularioBusqueda --> VentanaPrincipal : manipula
+FormularioBusqueda --> MenuNavegacion : manipula
+FormularioBusqueda --> TablaResultados : manipula
+
+note bottom of FormularioBusqueda
+  <b>Principio DIP y OCP:</b>
+  El cliente solo depende de abstracciones.
+  Se pueden añadir familias adicionales (ej. WebFactory)
+  sin tocar una sola línea de código del cliente.
+end note
+
+@enduml

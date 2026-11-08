@@ -1,0 +1,44 @@
+[2026-11-08 12:57:51.410] [INFO ] [Test] Iniciando prueba de concurrencia con 8 hilos...
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-1] Mensaje 0
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-1] Mensaje 1
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-1] Mensaje 2
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-1] Mensaje 3
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-1] Mensaje 4
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-4] Mensaje 0
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-4] Mensaje 1
+[2026-11-08 12:57:51.416] [DEBUG] [Hilo-4] Mensaje 2
+[2026-11-08 12:57:51.417] [DEBUG] [Hilo-4] Mensaje 3
+[2026-11-08 12:57:51.417] [DEBUG] [Hilo-4] Mensaje 4
+[2026-11-08 12:57:51.417] [DEBUG] [Hilo-7] Mensaje 0
+[2026-11-08 12:57:51.417] [DEBUG] [Hilo-7] Mensaje 1
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-7] Mensaje 2
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-7] Mensaje 3
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-7] Mensaje 4
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-3] Mensaje 0
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-3] Mensaje 1
+[2026-11-08 12:57:51.418] [DEBUG] [Hilo-3] Mensaje 2
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-3] Mensaje 3
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-3] Mensaje 4
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-0] Mensaje 0
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-0] Mensaje 1
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-0] Mensaje 2
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-0] Mensaje 3
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-0] Mensaje 4
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-2] Mensaje 0
+[2026-11-08 12:57:51.419] [DEBUG] [Hilo-2] Mensaje 1
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-2] Mensaje 2
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-2] Mensaje 3
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-2] Mensaje 4
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-6] Mensaje 0
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-6] Mensaje 1
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-6] Mensaje 2
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-6] Mensaje 3
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-6] Mensaje 4
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-5] Mensaje 0
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-5] Mensaje 1
+[2026-11-08 12:57:51.420] [DEBUG] [Hilo-5] Mensaje 2
+[2026-11-08 12:57:51.421] [DEBUG] [Hilo-5] Mensaje 3
+[2026-11-08 12:57:51.421] [DEBUG] [Hilo-5] Mensaje 4
+[2026-11-08 12:57:51.421] [INFO ] [Test] Prueba de concurrencia finalizada con exito.
+[2026-11-08 12:57:51.421] [WARN ] [Main] Prueba de advertencia
+[2026-11-08 12:57:51.421] [ERROR] [Main] Prueba de error critico

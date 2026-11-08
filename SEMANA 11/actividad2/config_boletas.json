@@ -1,0 +1,36 @@
+{
+  "formatos": ["txt", "csv", "html"],
+  "directorio_salida": "salida_boletas",
+  "estudiante": {
+    "nombre": "Maria Elena Quispe Mamani",
+    "codigo": "20230145",
+    "semestre": "2026-II"
+  },
+  "notas": [
+    {
+      "curso": "Programación Orientada a Objetos II",
+      "creditos": 4,
+      "nota": 17.5
+    },
+    {
+      "curso": "Arquitectura de Software y Sistemas",
+      "creditos": 4,
+      "nota": 16.0
+    },
+    {
+      "curso": "Bases de Datos Avanzadas",
+      "creditos": 4,
+      "nota": 15.0
+    },
+    {
+      "curso": "Sistemas Operativos Distribuidos",
+      "creditos": 3,
+      "nota": 14.5
+    },
+    {
+      "curso": "Investigación en Ingeniería de Sistemas",
+      "creditos": 3,
+      "nota": 18.0
+    }
+  ]
+}

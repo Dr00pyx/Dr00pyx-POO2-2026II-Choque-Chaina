@@ -1,0 +1,20 @@
+============================================================
+         UNIVERSIDAD NACIONAL DEL ALTIPLANO - PUNO          
+                  BOLETA DE NOTAS OFICIAL                   
+============================================================
+Estudiante : Maria Elena Quispe Mamani
+Código     : 20230145
+Semestre   : 2026-II
+------------------------------------------------------------
+CURSO                               CRÉD     NOTA     ESTADO    
+------------------------------------------------------------
+Programación Orientada a Objetos II 4        17.5     Aprobado  
+Arquitectura de Software y Sistemas 4        16.0     Aprobado  
+Bases de Datos Avanzadas            4        15.0     Aprobado  
+Sistemas Operativos Distribuidos    3        14.5     Aprobado  
+Investigación en Ingeniería de Sistemas 3        18.0     Aprobado  
+------------------------------------------------------------
+Total Créditos      : 18
+Promedio Ponderado  : 16.19
+Condición Académica : APROBADO
+============================================================
