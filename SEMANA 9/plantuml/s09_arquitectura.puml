@@ -1,0 +1,43 @@
+@startuml SistemaAcademicoUNAP_S09
+title Sistema Académico UNAP — Arquitectura Unidad II
+
+package "Capa de Presentación" #D6E4F0 {
+  component [GUIEstudiante] as GUI
+  component [GUICurso] as GUICurso
+  note right of GUI : Tkinter (S14)\nPyQt5 (S14)
+}
+
+package "Capa de Servicios / Lógica" #E2EFDA {
+  component [ServicioEstudiante] as SVC
+  component [ServicioMatricula] as SVCM
+  component [CalculadorPPA] as CALC
+  component [NotificadorEmail] as NotificadorEmail
+  interface IEstrategiaCalculo as IEST
+  note right of SVC : SOLID (S10)\nGoF (S11-S12)
+}
+
+package "Capa de Persistencia" #FCE4D6 {
+  interface IRepositorioEstudiante as REPO
+  component [RepositorioJSON] as JSON
+  component [RepositorioSQLite] as SQLITE
+  component [RepositorioSA] as SA
+  note right of REPO : DIP (S10)\nRepository (S13)\nSQLAlchemy (S15)
+}
+
+package "C++17 Motor" #EAD1F5 {
+  component [libcalculo.so] as LIB
+  note right of LIB : extern C (S16)\nctypes (S16)
+}
+
+GUI --> SVC
+GUICurso --> SVCM
+SVC --> REPO
+SVC --> CALC
+SVC --> NotificadorEmail : Observer (S12)
+CALC .> IEST
+CALC --> LIB : ctypes
+REPO <|.. JSON
+REPO <|.. SQLITE
+REPO <|.. SA
+
+@enduml
