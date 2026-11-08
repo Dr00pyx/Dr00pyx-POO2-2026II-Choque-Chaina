@@ -1,0 +1,79 @@
+@startuml SOLID_S10_Completo
+title SOLID — Sistema Académico UNAP (Semana 10)
+skinparam classAttributeIconSize 0
+skinparam roundcorner 8
+skinparam shadowing true
+skinparam packageStyle rectangle
+
+interface IRepositorioEstudiante <<interface>> {
+  + guardar(e: Estudiante): void
+  + buscar(codigo: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+interface IEstrategiaCalculo <<interface>> {
+  + calcular(notas: List<float>): float
+}
+
+class Estudiante {
+  - codigo: int
+  - nombre: str
+  - ppa: float
+  - notas: List<float>
+  + codigo(): int
+  + nombre(): str
+  + ppa(): float
+  + set_ppa(v: float): void
+}
+
+class ServicioEstudiante {
+  - repo: IRepositorioEstudiante
+  - calc: IEstrategiaCalculo
+  + ServicioEstudiante(repo: IRepositorioEstudiante, calc: IEstrategiaCalculo)
+  + registrar(e: Estudiante, notas: List<float>): void
+  + buscar(cod: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+class RepositorioMemoria implements IRepositorioEstudiante {
+  - datos: Map<int, Estudiante>
+  + guardar(e: Estudiante): void
+  + buscar(codigo: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+class RepositorioJSON implements IRepositorioEstudiante {
+  - rutaArchivo: str
+  + guardar(e: Estudiante): void
+  + buscar(codigo: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+class RepositorioSQLite implements IRepositorioEstudiante {
+  - conexionBD: Connection
+  + guardar(e: Estudiante): void
+  + buscar(codigo: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+class RepositorioCsv implements IRepositorioEstudiante {
+  - rutaCsv: str
+  + guardar(e: Estudiante): void
+  + buscar(codigo: int): Estudiante?
+  + listar(): List<Estudiante>
+}
+
+class PromedioSimple implements IEstrategiaCalculo {
+  + calcular(notas: List<float>): float
+}
+
+class PromedioModerado implements IEstrategiaCalculo {
+  + calcular(notas: List<float>): float
+}
+
+' Relaciones de dependencia e inyección (DIP y SRP)
+ServicioEstudiante --> IRepositorioEstudiante : inyección de dependencia
+ServicioEstudiante --> IEstrategiaCalculo : inyección de dependencia
+ServicioEstudiante ..> Estudiante : usa
+
+@enduml
