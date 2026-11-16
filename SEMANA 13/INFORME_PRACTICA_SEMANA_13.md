@@ -419,109 +419,108 @@ if isinstance(repo, MockRepositorio):
 <a name="71-diagrama-clases"></a>
 ### 7.1 Diagrama de Clases UML del Sistema Completo
 
-```mermaid
-classDiagram
-    direction TB
+@startuml
+top to bottom direction
 
-    class Estudiante {
-        +int codigo
-        +str nombre
-        +float ppa
-        +list~float~ notas
-        +__str__() str
-    }
+class Estudiante {
+  +codigo : int
+  +nombre : str
+  +ppa : float
+  +notas : list
+  +__str__() : str
+}
 
-    class IEstrategiaCalculo {
-        <<Protocol>>
-        +calcular(notas: Sequence~float~) float
-    }
+interface IEstrategiaCalculo {
+  +calcular(notas) : float
+}
 
-    class PromedioSimple {
-        +calcular(notas: Sequence~float~) float
-    }
+class PromedioSimple {
+  +calcular(notas) : float
+}
 
-    class IRepositorioEstudiante {
-        <<Protocol>>
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+interface IRepositorioEstudiante {
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    class RepositorioMemoria {
-        -dict~int, Estudiante~ _almacen
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+class RepositorioMemoria {
+  -_almacen
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    class RepositorioJSON {
-        -Path _ruta
-        -dict~int, Estudiante~ _datos
-        -_cargar() void
-        -_persistir() void
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+class RepositorioJSON {
+  -_ruta
+  -_datos
+  -_cargar()
+  -_persistir()
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    class RepositorioCSV {
-        -Path _ruta
-        -dict~int, Estudiante~ _datos
-        -_cargar() void
-        -_persistir() void
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+class RepositorioCSV {
+  -_ruta
+  -_datos
+  -_cargar()
+  -_persistir()
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    class RepositorioSQLite {
-        -str _ruta
-        -Connection _con
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-        +cerrar() void
-    }
+class RepositorioSQLite {
+  -_ruta
+  -_con
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+  +cerrar()
+}
 
-    class MockRepositorio {
-        -dict~int, Estudiante~ _almacen
-        +int veces_guardar
-        +guardar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+class MockRepositorio {
+  -_almacen
+  +veces_guardar : int
+  +guardar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    class ServicioEstudiante {
-        -IRepositorioEstudiante _repo
-        -IEstrategiaCalculo _calc
-        +set_estrategia(calc: IEstrategiaCalculo) void
-        +registrar(e: Estudiante) void
-        +buscar(cod: int) Optional~Estudiante~
-        +listar() list~Estudiante~
-        +eliminar(cod: int) void
-    }
+class ServicioEstudiante {
+  -_repo
+  -_calc
+  +set_estrategia(calc)
+  +registrar(e)
+  +buscar(cod)
+  +listar()
+  +eliminar(cod)
+}
 
-    %% Relaciones
-    IEstrategiaCalculo <|.. PromedioSimple : implementa
-    IRepositorioEstudiante <|.. RepositorioMemoria : implementa
-    IRepositorioEstudiante <|.. RepositorioJSON : implementa
-    IRepositorioEstudiante <|.. RepositorioCSV : implementa
-    IRepositorioEstudiante <|.. RepositorioSQLite : implementa
-    IRepositorioEstudiante <|.. MockRepositorio : implementa
+IEstrategiaCalculo <|.. PromedioSimple
 
-    ServicioEstudiante o-- IRepositorioEstudiante : inyección DIP
-    ServicioEstudiante o-- IEstrategiaCalculo : inyección DIP
-    ServicioEstudiante ..> Estudiante : gestiona
-    RepositorioJSON ..> Estudiante : serializa
-    RepositorioCSV ..> Estudiante : serializa
-    RepositorioSQLite ..> Estudiante : mapea
-```
+IRepositorioEstudiante <|.. RepositorioMemoria
+IRepositorioEstudiante <|.. RepositorioJSON
+IRepositorioEstudiante <|.. RepositorioCSV
+IRepositorioEstudiante <|.. RepositorioSQLite
+IRepositorioEstudiante <|.. MockRepositorio
+
+ServicioEstudiante o-- IRepositorioEstudiante : DIP
+ServicioEstudiante o-- IEstrategiaCalculo : DIP
+
+ServicioEstudiante ..> Estudiante : gestiona
+RepositorioJSON ..> Estudiante : serializa
+RepositorioCSV ..> Estudiante : serializa
+RepositorioSQLite ..> Estudiante : mapea
+
+@enduml
 
 <a name="72-diagrama-secuencia"></a>
 ### 7.2 Diagrama de Secuencia de Registro y Sustitución Polimórfica
