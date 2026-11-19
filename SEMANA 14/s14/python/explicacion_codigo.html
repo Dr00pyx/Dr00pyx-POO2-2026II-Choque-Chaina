@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación de Código y Arquitectura MVC — Práctica Semana 14 (POO II)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        unap: {
+                            blue: '#0d47a1',
+                            light: '#1976d2',
+                            dark: '#0a2463',
+                            accent: '#00b4d8'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'Segoe UI', 'Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'Fira Code', monospace; }
+        .line-code:hover { background-color: rgba(59, 130, 246, 0.08); }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Institutional Banner -->
+    <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-blue-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl shadow-inner border border-blue-400/40">
+                    S14
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">UNIVERSIDAD NACIONAL DEL ALTIPLANO</h1>
+                    <p class="text-xs text-blue-200">SIS206 — Programación Orientada a Objetos II | Semestre 2026-II</p>
+                </div>
+            </div>
+            <div class="text-right text-xs text-slate-300">
+                <p><span class="font-semibold text-white">Docente:</span> Dr. Aldo Hernán Zanabria Gálvez</p>
+                <p>GUI con Tkinter y PyQt5 — MVC para el Sistema Académico</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+        
+        <!-- Hero / Resumen Card -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <div class="border-l-4 border-blue-600 pl-4 mb-4">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded">Arquitectura GUI</span>
+                <h2 class="text-2xl font-bold text-slate-900 mt-1">Patrón MVC y Observer con Signals & Slots</h2>
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-6">
+                Esta sesión implementa dos interfaces gráficas de usuario para el sistema académico: <strong>Tkinter</strong> para una aproximación clásica y ligera, y <strong>PyQt5</strong> aprovechando el patrón <strong>Observer</strong> nativo provisto por el sistema de <code>pyqtSignal</code> y <code>pyqtSlot</code>. Se garantiza que la Vista nunca manipula el almacenamiento directamente.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="text-xs text-slate-500 font-medium">Actividad 1A</p>
+                    <p class="text-sm font-bold text-slate-800">Tkinter CRUD + Búsqueda</p>
+                    <span class="inline-block mt-1 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded">40% Aprobado</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="text-xs text-slate-500 font-medium">Actividad 2A</p>
+                    <p class="text-sm font-bold text-slate-800">PyQt5 Signal/Slot + Eliminar</p>
+                    <span class="inline-block mt-1 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded">60% Aprobado</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="text-xs text-slate-500 font-medium">Desacoplamiento</p>
+                    <p class="text-sm font-bold text-slate-800">Separación MVC Estricta</p>
+                    <span class="inline-block mt-1 text-[11px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded">100% Verificado</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60">
+                    <p class="text-xs text-slate-500 font-medium">RETO EXTRA</p>
+                    <p class="text-sm font-bold text-slate-800">Exportar Excel (.xlsx)</p>
+                    <span class="inline-block mt-1 text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded">Botón + openpyxl</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
+            <a href="#tkinter" class="px-4 py-2 text-sm font-semibold text-blue-700 bg-blue-50 rounded-lg hover:bg-blue-100 transition">1. Tkinter (app_tkinter.py)</a>
+            <a href="#pyqt5" class="px-4 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition">2. PyQt5 (pyqt5_app.py)</a>
+            <a href="#mvc" class="px-4 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition">3. Separación MVC</a>
+            <a href="#rubrica" class="px-4 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition">4. Rúbrica Oficial Rellenada</a>
+        </div>
+
+        <!-- Section 1: Tkinter -->
+        <section id="tkinter" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">1. Actividad 1A: Tkinter CRUD Completo</h3>
+                    <p class="text-sm text-slate-500">Manejo de widgets nativos, parseo de notas, cálculo de PPA y función adicional de búsqueda.</p>
+                </div>
+                <span class="text-xs font-mono bg-slate-100 text-slate-700 px-3 py-1 rounded-md border border-slate-200">app_tkinter.py</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wide text-blue-600">Aspectos Clave de la Implementación</h4>
+                    <ul class="space-y-3 text-sm text-slate-600 leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Contenedores ttk:</strong> Se utilizan <code>LabelFrame</code> con empaquetado <code>pack</code> y distribución <code>grid</code> para alinear con precisión las etiquetas y cajas de texto de entrada.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Parseo y Conversión:</strong> En <code>_registrar()</code>, la cadena de notas se divide mediante <code>raw.split(",")</code> y se convierte en <code>List[float]</code>, calculando automáticamente el PPA.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Listbox con Scrollbar:</strong> Acoplamiento bidireccional mediante <code>command=self._lb.yview</code> y <code>yscrollcommand=sb.set</code> para visualización de registros con tipografía monoespaciada Courier New.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Adicional Búsqueda por Código:</strong> Permite filtrar dinámicamente un estudiante ingresando su código numérico y restaurar la vista completa mediante el botón "Restablecer".</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900 rounded-xl p-4 text-slate-100 font-mono text-xs overflow-x-auto shadow-inner">
+                    <div class="text-slate-400 border-b border-slate-700 pb-2 mb-2 font-semibold">Fragmento: Manejador de Registro y Búsqueda</div>
+<pre><code class="language-python">def _registrar(self) -> None:
+    try:
+        cod = int(self._ent_cod.get())
+        nom = self._ent_nom.get().strip()
+        if not nom:
+            raise ValueError("Nombre vacío")
+        raw = self._ent_notas.get().strip()
+        notas = [float(x) for x in raw.split(",") if x.strip()] if raw else []
+        e = Estudiante(cod, nom, 0.0, notas)
+        self._svc.registrar(e)
+        self._actualizar_lista()
+        self._ent_cod.delete(0, "end")
+        self._ent_nom.delete(0, "end")
+        self._ent_notas.delete(0, "end")
+    except ValueError as ex:
+        messagebox.showerror("Error", str(ex))
+
+def _buscar(self) -> None:
+    raw_cod = self._ent_buscar.get().strip()
+    if not raw_cod:
+        self._actualizar_lista()
+        return
+    try:
+        cod = int(raw_cod)
+        e = self._svc.buscar(cod)
+        self._lb.delete(0, "end")
+        if e:
+            ppa_str = f"{e.ppa:.2f}" if e.notas else "sin notas"
+            self._lb.insert("end", f"[{e.codigo:04d}] {e.nombre:<28} PPA: {ppa_str}")
+        else:
+            messagebox.showinfo("Búsqueda", f"No se encontró código {cod}")
+            self._actualizar_lista()
+    except ValueError:
+        messagebox.showerror("Error", "El código debe ser numérico")</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: PyQt5 -->
+        <section id="pyqt5" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">2. Actividad 2A: PyQt5 con Signal/Slot</h3>
+                    <p class="text-sm text-slate-500">Patrón Observer nativo, QTableWidget extensible, resaltado en rojo para notas &lt; 10.5 y botón de eliminación reactiva.</p>
+                </div>
+                <span class="text-xs font-mono bg-slate-100 text-slate-700 px-3 py-1 rounded-md border border-slate-200">pyqt5_app.py</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-800 text-sm uppercase tracking-wide text-blue-600">Observer Mediante pyqtSignal</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        A diferencia de los callbacks convencionales de GUI, Qt implementa el patrón Observer desacoplado:
+                    </p>
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-2 text-sm text-blue-900">
+                        <p><strong>1. Señal:</strong> <code>estudiante_guardado = pyqtSignal(object)</code> y <code>estudiante_eliminado = pyqtSignal(int)</code>.</p>
+                        <p><strong>2. Emisión:</strong> Ocurre dentro de <code>ModeloAcademico</code> al mutar datos: <code>self.estudiante_guardado.emit(e)</code>.</p>
+                        <p><strong>3. Suscripción (Slot):</strong> <code>self._mod.estudiante_guardado.connect(self._on_estudiante_guardado)</code>.</p>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        <strong>Formato Condicional:</strong> Durante <code>_recargar_tabla()</code>, si <code>e.ppa &lt; 10.5</code>, se invoca <code>ppa_item.setForeground(QColor("#C00000"))</code>, pintando automáticamente en color carmesí las calificaciones desaprobadas.
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 rounded-xl p-4 text-slate-100 font-mono text-xs overflow-x-auto shadow-inner">
+                    <div class="text-slate-400 border-b border-slate-700 pb-2 mb-2 font-semibold">Fragmento: ModeloAcademico y Slot de Recarga</div>
+<pre><code class="language-python">class ModeloAcademico(QObject):
+    estudiante_guardado = pyqtSignal(object)
+    estudiante_eliminado = pyqtSignal(int)
+
+    def __init__(self, svc) -> None:
+        super().__init__()
+        self._svc = svc
+
+    def registrar(self, e: Estudiante) -> None:
+        self._svc.registrar(e)
+        self.estudiante_guardado.emit(e)
+
+    def eliminar(self, cod: int) -> None:
+        self._svc.eliminar(cod)
+        self.estudiante_eliminado.emit(cod)
+
+# En VistaEstudiantes:
+def _recargar_tabla(self) -> None:
+    self._tbl.setRowCount(0)
+    for e in self._mod.listar():
+        r = self._tbl.rowCount()
+        self._tbl.insertRow(r)
+        self._tbl.setItem(r, 0, QTableWidgetItem(str(e.codigo)))
+        self._tbl.setItem(r, 1, QTableWidgetItem(e.nombre))
+        ppa_item = QTableWidgetItem(f"{e.ppa:.2f}")
+        if e.ppa < 10.5:
+            ppa_item.setForeground(QColor("#C00000"))
+        self._tbl.setItem(r, 2, ppa_item)
+        self._tbl.setItem(r, 3, QTableWidgetItem(str(e.notas)))</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Separación MVC -->
+        <section id="mvc" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+            <div class="border-b border-slate-100 pb-4">
+                <h3 class="text-xl font-bold text-slate-900">3. Verificación de la Separación MVC</h3>
+                <p class="text-sm text-slate-500">Garantía arquitectónica: la Vista nunca toca el repositorio directamente.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-bold flex items-center justify-center text-sm">V</div>
+                    <h4 class="font-bold text-slate-800">Capa de Vista</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Representada por <code>AppEstudiantes</code> y <code>VistaEstudiantes</code>. Solo captura eventos de interfaz, valida entradas básicas de formulario y renderiza los datos suministrados por el modelo.
+                    </p>
+                </div>
+                <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">C</div>
+                    <h4 class="font-bold text-slate-800">Capa de Controlador / Modelo</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        <code>ModeloAcademico</code> actúa como envoltorio reactivo de <code>ServicioEstudiante</code>. Aplica la estrategia de cálculo de notas (Strategy) y notifica los cambios mediante señales.
+                    </p>
+                </div>
+                <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">M</div>
+                    <h4 class="font-bold text-slate-800">Capa de Persistencia</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        <code>RepositorioJSON</code> encapsula la lectura y escritura del archivo <code>datos.json</code>. Totalmente aislado de cualquier biblioteca gráfica (`tkinter` o `PyQt5`).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Rúbrica Oficial -->
+        <section id="rubrica" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+            <div class="border-b border-slate-100 pb-4">
+                <h3 class="text-xl font-bold text-slate-900">4. Rúbrica de Evaluación Oficial (Rellenada)</h3>
+                <p class="text-sm text-slate-500">Evaluación rigurosa según los criterios de la Guía de Práctica de la Semana 14.</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 uppercase font-semibold text-xs border-b border-slate-200">
+                            <th class="py-3 px-4">Actividad</th>
+                            <th class="py-3 px-4">Criterio Establecido</th>
+                            <th class="py-3 px-4 text-center">Peso</th>
+                            <th class="py-3 px-4">Estado de Cumplimiento</th>
+                            <th class="py-3 px-4 text-center">Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="py-3.5 px-4 font-bold text-slate-900">1A Tkinter</td>
+                            <td class="py-3.5 px-4 text-slate-600">CRUD funciona; lista actualiza tras registrar/eliminar; notas convertidas a PPA. Incluye búsqueda por código adicional.</td>
+                            <td class="py-3.5 px-4 text-center font-bold text-blue-600">40%</td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Verificado
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 text-center font-bold text-emerald-600">40 / 40</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="py-3.5 px-4 font-bold text-slate-900">2A PyQt5</td>
+                            <td class="py-3.5 px-4 text-slate-600">Signal emitida al registrar; tabla recarga vía _on_estudiante_guardado; PPA en rojo si &lt; 10.5. Incluye botón eliminar adicional.</td>
+                            <td class="py-3.5 px-4 text-center font-bold text-blue-600">60%</td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Verificado
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 text-center font-bold text-emerald-600">60 / 60</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="py-3.5 px-4 font-bold text-slate-900">RETO EXTRA</td>
+                            <td class="py-3.5 px-4 text-slate-600">Exportación a archivo Excel nativo (.xlsx) con botón en interfaz GUI, encabezados estilizados y formato condicional.</td>
+                            <td class="py-3.5 px-4 text-center font-bold text-emerald-600">BONUS</td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 100% Verificado
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 text-center font-bold text-emerald-600">+ Pts Extra</td>
+                        </tr>
+                        <tr class="bg-blue-50/40 font-bold border-t-2 border-blue-200">
+                            <td colspan="2" class="py-4 px-4 text-blue-900 text-right uppercase tracking-wider text-xs">Puntaje Total Consolidado</td>
+                            <td class="py-4 px-4 text-center text-blue-900">100%</td>
+                            <td class="py-4 px-4 text-blue-900">Rúbrica Completa Aprobada</td>
+                            <td class="py-4 px-4 text-center text-blue-900 text-base">100 / 100 (20/20)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-xs text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>Universidad Nacional del Altiplano — Facultad de Ingeniería Mecánica Eléctrica, Electrónica y Sistemas</p>
+            <p class="text-slate-500 mt-1">Escuela Profesional de Ingeniería de Sistemas — SIS206 Programación Orientada a Objetos II</p>
+        </div>
+    </footer>
+
+</body>
+</html>

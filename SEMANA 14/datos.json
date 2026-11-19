@@ -1,0 +1,42 @@
+[
+  {
+    "codigo": 1001,
+    "nombre": "Juan Perez",
+    "ppa": 15.666666666666666,
+    "notas": [
+      15.0,
+      18.0,
+      14.0
+    ]
+  },
+  {
+    "codigo": 1003,
+    "nombre": "Carlos Quispe",
+    "ppa": 15.833333333333334,
+    "notas": [
+      16.0,
+      17.0,
+      14.5
+    ]
+  },
+  {
+    "codigo": 1005,
+    "nombre": "Manuel Choque",
+    "ppa": 17.166666666666668,
+    "notas": [
+      17.0,
+      18.0,
+      16.5
+    ]
+  },
+  {
+    "codigo": 1006,
+    "nombre": "Diana Quispe",
+    "ppa": 8.166666666666666,
+    "notas": [
+      8.0,
+      9.0,
+      7.5
+    ]
+  }
+]
